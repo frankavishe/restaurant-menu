@@ -76,12 +76,33 @@ instructions.
 **Output:** full Django project at repo root (all files from `plan.md`'s Project Structure);
 `tasks.md` checkboxes all `[X]`; uncommitted — commit alongside Phase 8 verification.
 
-## Phase 8 — Converge & verify
+## Phase 8 — Converge & verify ✅ done
 **Skill:** `/speckit-converge`
-- Assess the built codebase against spec/plan/tasks; append any remaining/missed work as new tasks
-- Run migrations, start the dev server, manually walk through Home → Menu → filter → item detail → Contact → Admin CRUD
-- Confirm responsive behavior (mobile/tablet/desktop breakpoints)
-- Commit + push final implementation
+- Assessed the built codebase against spec.md/plan.md/tasks.md (all 15 FRs, 5 SCs, 15 user-story
+  acceptance scenarios, 6 plan decisions, 5 constitution principles) — one gap found: `plan.md`/
+  `research.md` commit to an automated Django test suite that was never written (`menu/tests.py`/
+  `pages/tests.py` are still the default stub)
+- Everything else (models, views, admin, forms, templates, URLs, migrations) matches spec/plan
+  exactly; `manage.py check` and `makemigrations --check` clean
+- **Output:** appended `T038` under a new `## Phase 9: Convergence` section in
+  `specs/001-restaurant-menu-site/tasks.md` to close that gap
+- Migrations/dev-server walkthrough and responsive check were already covered by Phase 7's T036/
+  T037 verification; git working tree is clean and both `main`/`tasks` branches are already
+  pushed to `origin`
+
+## Phase 9 — Convergence follow-up ✅ done
+**Skill:** `/speckit-implement` (re-run against the Phase 9 convergence task)
+- Implemented T038: wrote the Django `TestCase` suite committed to by `plan.md`/`research.md`
+  (`menu/tests.py`, `pages/tests.py`) — model validation (price `MinValueValidator`, image
+  `FileExtensionValidator` + `validate_image_size`), `menu` view responses (list, category
+  filter, unmatched-slug fallback, item detail, 404), `pages` view responses (home featured cap
+  of 6, contact GET/POST valid+invalid, message length cap)
+- Along the way, discovered `TextField(max_length=2000)` doesn't add a model-level
+  `MaxLengthValidator` (unlike `CharField`) — the 2000-char cap on `ContactMessage.message` is
+  enforced via `ContactForm`, not raw `full_clean()`; adjusted tests to assert the cap where
+  it's actually enforced (confirmed correct, not a bug)
+- `python manage.py test` → 31/31 passing; `tasks.md` T038 marked `[X]`
 
 ---
-**Status:** Phase 7 complete (full implementation done and manually verified, uncommitted). Next: Phase 8 (`/speckit-converge`).
+**Status:** Phase 9 complete — all 38 tasks done, test suite passing. Next: re-run
+`/speckit-converge` to confirm a clean (no-findings) convergence, then commit + push.
