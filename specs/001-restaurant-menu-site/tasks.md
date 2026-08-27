@@ -229,3 +229,9 @@ With multiple developers, after Foundational: Developer A takes US1 → US4 (bot
 - No test tasks are included — not requested in spec.md/plan.md; `python manage.py test` remains available as an optional manual check (see `research.md#testing-approach`)
 - Commit after each task or logical group
 - Stop at any checkpoint to validate a story independently
+
+---
+
+## Phase 9: Convergence
+
+- [X] T038 Implement the Django test suite committed to in `plan.md` Technical Context / `research.md#testing-approach` (currently `menu/tests.py` and `pages/tests.py` hold only the default stub): model validation (price precision/`MinValueValidator`, image `FileExtensionValidator` + `validate_image_size`, `ContactMessage.message` 2000-char cap), `menu` view responses (list all items, category filter, unmatched-slug fallback to full list, item detail, 404 on missing item), and `pages` view responses (home featured-items capped at 6, contact GET renders blank form, POST valid persists + redirects with `?sent=1`, POST invalid re-renders with errors and saves nothing) per `plan.md: testing approach` (missing)
