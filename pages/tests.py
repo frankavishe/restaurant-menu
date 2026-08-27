@@ -1,5 +1,6 @@
 from decimal import Decimal
 
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 
@@ -119,3 +120,63 @@ class ContactViewTests(TestCase):
     def test_confirmation_shown_when_sent_query_param_present(self):
         response = self.client.get(f"{reverse('contact')}?sent=1")
         self.assertContains(response, "Thanks for reaching out")
+
+
+class ContactMessageAdminActionTests(TestCase):
+    def setUp(self):
+        self.superuser = User.objects.create_superuser(
+            username="admin", email="admin@example.com", password="pw12345"
+        )
+        self.client.force_login(self.superuser)
+        self.msg = ContactMessage.objects.create(
+            name="Visitor", contact_info="visitor@example.com", message="hi"
+        )
+
+    def test_mark_as_read_action(self):
+        url = reverse("admin:pages_contactmessage_changelist")
+        response = self.client.post(url, {
+            "action": "mark_as_read",
+            "_selected_action": [str(self.msg.pk)],
+        }, follow=True)
+        self.msg.refresh_from_db()
+        self.assertTrue(self.msg.is_read)
+        self.assertEqual(response.status_code, 200)
+
+    def test_mark_as_unread_action(self):
+        self.msg.is_read = True
+        self.msg.save()
+        url = reverse("admin:pages_contactmessage_changelist")
+        response = self.client.post(url, {
+            "action": "mark_as_unread",
+            "_selected_action": [str(self.msg.pk)],
+        }, follow=True)
+        self.msg.refresh_from_db()
+        self.assertFalse(self.msg.is_read)
+        self.assertEqual(response.status_code, 200)
+
+
+class AdminBrandingTests(TestCase):
+    def test_login_page_shows_custom_site_header(self):
+        response = self.client.get(reverse("admin:login"))
+        self.assertContains(response, "Restaurant Name Admin")
+
+    def test_index_page_shows_custom_header_and_stats(self):
+        User.objects.create_superuser(
+            username="admin", email="admin@example.com", password="pw12345"
+        )
+        self.client.login(username="admin", password="pw12345")
+        category = Category.objects.create(name="Mains")
+        MenuItem.objects.create(
+            name="Burger", description="x", price=Decimal("9.99"),
+            category=category, is_featured=True,
+        )
+        ContactMessage.objects.create(
+            name="Visitor", contact_info="visitor@example.com", message="hi"
+        )
+
+        response = self.client.get(reverse("admin:index"))
+        self.assertContains(response, "Restaurant Name Admin")
+        self.assertEqual(response.context["category_count"], 1)
+        self.assertEqual(response.context["menu_item_count"], 1)
+        self.assertEqual(response.context["featured_item_count"], 1)
+        self.assertEqual(response.context["unread_message_count"], 1)

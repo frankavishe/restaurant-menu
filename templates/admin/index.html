@@ -1,0 +1,14 @@
+{% extends "admin/index.html" %}
+
+{% block content %}
+<div id="dashboard-stats" class="module">
+    <h2>Overview</h2>
+    <div class="dashboard-stats-grid">
+        <div class="stat-card"><span class="stat-number">{{ category_count }}</span><span class="stat-label">Categories</span></div>
+        <div class="stat-card"><span class="stat-number">{{ menu_item_count }}</span><span class="stat-label">Menu Items</span></div>
+        <div class="stat-card"><span class="stat-number">{{ featured_item_count }}</span><span class="stat-label">Featured Items</span></div>
+        <div class="stat-card"><span class="stat-number">{{ unread_message_count }}</span><span class="stat-label">Unread Messages</span></div>
+    </div>
+</div>
+{{ block.super }}
+{% endblock %}

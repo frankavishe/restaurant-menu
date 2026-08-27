@@ -4,7 +4,7 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="text-center bg-light rounded p-5 mb-5">
+<div class="hero text-center rounded p-5 mb-5">
     <img src="{% static 'img/placeholder.png' %}" alt="Restaurant Name logo" class="mb-3" style="max-width: 120px;">
     <h1>Restaurant Name</h1>
     <p class="lead">Fresh, seasonal dishes served in a warm, welcoming setting.</p>
@@ -17,7 +17,8 @@
 <div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
     {% for item in featured_items %}
     <div class="col">
-        <div class="card menu-item-card shadow-sm">
+        <div class="card menu-item-card shadow-sm position-relative">
+            <span class="badge badge-featured position-absolute top-0 end-0 m-2">Featured</span>
             {% if item.image %}
             <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
             {% else %}

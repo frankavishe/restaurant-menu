@@ -6,6 +6,7 @@ class ContactMessage(models.Model):
     contact_info = models.CharField(max_length=254)
     message = models.TextField(max_length=2000)
     submitted_at = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default=False)
 
     class Meta:
         ordering = ['-submitted_at']

@@ -1,10 +1,12 @@
 from decimal import Decimal
 
+from django.contrib import admin
 from django.core.exceptions import ValidationError
 from django.core.files.uploadedfile import SimpleUploadedFile
 from django.test import TestCase
 from django.urls import reverse
 
+from .admin import MenuItemAdmin
 from .models import Category, MenuItem
 from .validators import validate_image_size
 
@@ -128,3 +130,13 @@ class MenuItemDetailViewTests(TestCase):
     def test_missing_item_returns_404(self):
         response = self.client.get(reverse("menu_item_detail", args=[999999]))
         self.assertEqual(response.status_code, 404)
+
+
+class MenuItemAdminImagePreviewTests(TestCase):
+    def test_image_preview_blank_image_returns_placeholder(self):
+        category = Category.objects.create(name="Starters")
+        item = MenuItem.objects.create(
+            name="Soup", description="Tasty soup", price=Decimal("9.99"), category=category
+        )
+        admin_instance = MenuItemAdmin(MenuItem, admin.site)
+        self.assertEqual(admin_instance.image_preview(item), "—")

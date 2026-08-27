@@ -6,11 +6,12 @@ The `urlpatterns` list routes URLs to views. For more information please see:
 """
 from django.conf import settings
 from django.conf.urls.static import static
-from django.contrib import admin
 from django.urls import include, path
 
+from restaurant_site.admin import admin_site
+
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('admin/', admin_site.urls),
     path('', include('pages.urls')),
     path('menu/', include('menu.urls')),
 ]

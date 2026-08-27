@@ -1,9 +1,145 @@
-/* Minimal overrides on top of Bootstrap defaults */
+/* ==========================================================================
+   Brand palette
+   Burgundy anchors the site (wine, richness); gold carries price tags and
+   calls to action; the lime / green / blue trio is used sparingly as a
+   "fresh ingredients" accent strip and small highlights only.
+   ========================================================================== */
+:root {
+    --brand-maroon: #6A041D;
+    --brand-maroon-dark: #4A0114;
+    --brand-maroon-light: #8A1330;
+    --brand-gold: #F5B841;
+    --brand-gold-dark: #D99A22;
+    --brand-lime: #F4FF52;
+    --brand-green: #53FF45;
+    --brand-blue: #1E2EDE;
+    --brand-cream: #FBF4E8;
+    --brand-ink: #241012;
+}
+
+body {
+    color: var(--brand-ink);
+}
+
+a {
+    color: var(--brand-maroon);
+}
+
+a:hover {
+    color: var(--brand-gold-dark);
+}
+
+/* Signature accent strip: a thin band of the four brighter hues that reads
+   as "fresh ingredients" beneath the burgundy navbar. */
+.brand-accent-strip {
+    height: 5px;
+    background: linear-gradient(
+        90deg,
+        var(--brand-gold) 0%,
+        var(--brand-lime) 33%,
+        var(--brand-green) 66%,
+        var(--brand-blue) 100%
+    );
+}
+
+/* Navbar
+   ========================================================================== */
+.navbar.bg-dark {
+    background-color: var(--brand-maroon) !important;
+}
 
 .navbar-brand {
     font-weight: 600;
+    letter-spacing: 0.02em;
 }
 
+.navbar-dark .navbar-nav .nav-link {
+    color: rgba(255, 255, 255, 0.85);
+    transition: color 0.15s ease;
+}
+
+.navbar-dark .navbar-nav .nav-link:hover,
+.navbar-dark .navbar-nav .nav-link.active {
+    color: var(--brand-gold);
+}
+
+/* Footer
+   ========================================================================== */
+footer.bg-dark {
+    background-color: var(--brand-maroon) !important;
+}
+
+footer a {
+    color: var(--brand-gold);
+}
+
+/* Hero
+   ========================================================================== */
+.hero {
+    background-color: var(--brand-cream) !important;
+    border-top: 4px solid var(--brand-gold);
+}
+
+.hero h1 {
+    color: var(--brand-maroon);
+    font-weight: 700;
+}
+
+/* Buttons
+   ========================================================================== */
+.btn-brand,
+.btn-dark {
+    background-color: var(--brand-maroon);
+    border-color: var(--brand-maroon);
+    color: #fff;
+}
+
+.btn-brand:hover,
+.btn-dark:hover {
+    background-color: var(--brand-maroon-dark);
+    border-color: var(--brand-maroon-dark);
+    color: #fff;
+}
+
+.btn-outline-dark {
+    color: var(--brand-maroon);
+    border-color: var(--brand-maroon);
+}
+
+.btn-outline-dark:hover {
+    background-color: var(--brand-maroon);
+    border-color: var(--brand-maroon);
+    color: #fff;
+}
+
+.btn-link {
+    color: var(--brand-maroon);
+}
+
+.btn:focus,
+.btn:focus-visible,
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(245, 184, 65, 0.45);
+    border-color: var(--brand-gold);
+}
+
+/* Menu category pills
+   ========================================================================== */
+.nav-pills .nav-link {
+    color: var(--brand-maroon);
+}
+
+.nav-pills .nav-link:hover {
+    background-color: rgba(245, 184, 65, 0.18);
+}
+
+.nav-pills .nav-link.active {
+    background-color: var(--brand-maroon);
+    color: #fff;
+}
+
+/* Cards
+   ========================================================================== */
 .card-img-top {
     object-fit: cover;
     height: 200px;
@@ -11,4 +147,38 @@
 
 .menu-item-card {
     height: 100%;
+    border-color: rgba(106, 4, 29, 0.1);
+    transition: box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.menu-item-card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(106, 4, 29, 0.15) !important;
+    transform: translateY(-2px);
+}
+
+.menu-item-card .card-title {
+    color: var(--brand-maroon);
+}
+
+.menu-item-card .card-text.fw-bold,
+.fs-4.fw-bold {
+    color: var(--brand-gold-dark);
+}
+
+/* Featured badge accent (fresh-ingredient greens) */
+.badge-featured {
+    background-color: var(--brand-green);
+    color: var(--brand-ink);
+}
+
+/* Alerts
+   ========================================================================== */
+.alert-success {
+    background-color: rgba(83, 255, 69, 0.15);
+    border-color: var(--brand-green);
+    color: #1e5a17;
+}
+
+.text-danger {
+    color: var(--brand-maroon) !important;
 }
