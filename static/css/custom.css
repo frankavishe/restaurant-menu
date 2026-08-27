@@ -182,3 +182,115 @@ footer a {
 .text-danger {
     color: var(--brand-maroon) !important;
 }
+
+/* Theme toggle button
+   ========================================================================== */
+.theme-toggle-btn {
+    color: rgba(255, 255, 255, 0.85);
+    border: none;
+    background: transparent;
+    font-size: 1.1rem;
+    line-height: 1;
+    padding: 0.25rem 0.5rem;
+}
+
+.theme-toggle-btn:hover,
+.theme-toggle-btn:focus {
+    color: var(--brand-gold);
+}
+
+/* ==========================================================================
+   Night mode
+   Bootstrap 5.3's [data-bs-theme="dark"] handles most component colors
+   automatically; these overrides re-tune the brand-specific pieces
+   (hero, cards, pills, links) that hardcode the light-mode palette above.
+   ========================================================================== */
+[data-bs-theme="dark"] {
+    --brand-cream: #2a161d;
+    --brand-ink: #f2e9e4;
+}
+
+[data-bs-theme="dark"] body {
+    background-color: #170c10;
+    color: var(--brand-ink);
+}
+
+[data-bs-theme="dark"] a {
+    color: var(--brand-gold);
+}
+
+[data-bs-theme="dark"] a:hover {
+    color: var(--brand-gold-dark);
+}
+
+[data-bs-theme="dark"] .hero {
+    border-top-color: var(--brand-gold);
+}
+
+[data-bs-theme="dark"] .hero h1 {
+    color: var(--brand-gold);
+}
+
+[data-bs-theme="dark"] .menu-item-card {
+    background-color: #241319;
+    border-color: rgba(245, 184, 65, 0.2);
+}
+
+[data-bs-theme="dark"] .menu-item-card .card-title {
+    color: var(--brand-gold);
+}
+
+[data-bs-theme="dark"] .menu-item-card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.4) !important;
+}
+
+[data-bs-theme="dark"] .menu-item-card .card-text.fw-bold,
+[data-bs-theme="dark"] .fs-4.fw-bold {
+    color: var(--brand-gold);
+}
+
+[data-bs-theme="dark"] .nav-pills .nav-link {
+    color: var(--brand-gold);
+}
+
+[data-bs-theme="dark"] .nav-pills .nav-link:hover {
+    background-color: rgba(245, 184, 65, 0.15);
+}
+
+[data-bs-theme="dark"] .nav-pills .nav-link.active {
+    background-color: var(--brand-gold);
+    color: var(--brand-ink);
+}
+
+[data-bs-theme="dark"] .btn-outline-dark {
+    color: var(--brand-gold);
+    border-color: var(--brand-gold);
+}
+
+[data-bs-theme="dark"] .btn-outline-dark:hover {
+    background-color: var(--brand-gold);
+    border-color: var(--brand-gold);
+    color: #170c10;
+}
+
+[data-bs-theme="dark"] .btn-link {
+    color: var(--brand-gold);
+}
+
+[data-bs-theme="dark"] .badge-featured {
+    color: var(--brand-ink);
+}
+
+[data-bs-theme="dark"] .alert-success {
+    background-color: rgba(83, 255, 69, 0.12);
+    border-color: var(--brand-green);
+    color: #9ee08f;
+}
+
+[data-bs-theme="dark"] .text-danger {
+    color: #ff98a8 !important;
+}
+
+[data-bs-theme="dark"] .theme-toggle-btn {
+    color: rgba(255, 255, 255, 0.85);
+}
