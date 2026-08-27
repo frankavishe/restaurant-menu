@@ -140,19 +140,31 @@ confirm validation errors are shown and nothing is saved.
 - What happens when the menu has no items at all yet (fresh install)? The Menu page renders
   with an empty/"coming soon" state rather than erroring.
 - How does the system handle a contact form submission with an excessively long message or
-  invalid characters? Server-side validation rejects it with a clear error; no partial data is
-  saved.
+  invalid characters? Server-side validation rejects any message over 2000 characters with a
+  clear error; no partial data is saved.
 - What happens when two categories or two menu items share the same name? Allowed — items are
   distinguished internally by ID, not by uniqueness of name.
+
+## Clarifications
+
+### Session 2026-08-27
+
+- Q: What file types and maximum file size should be allowed for menu item image uploads? → A: JPEG, PNG, WebP; max 5MB per image
+- Q: What currency and decimal format should menu item prices use? → A: Single currency (e.g. USD), fixed 2 decimal places, symbol shown in templates (e.g. "$12.99")
+- Q: What maximum length should the contact form's message field enforce? → A: 2000 characters max
+- Q: Should a MenuItem support a "currently unavailable" state separate from deleting it outright? → A: No — out of scope; staff temporarily remove an item by deleting it (or editing later)
+- Q: Should the Home page's featured-dishes section cap the number of items shown, even if staff mark more than that as featured? → A: 6 items max
 
 ## Requirements *(mandatory)*
 
 ### Functional Requirements
 
 - **FR-001**: The system MUST display a Home page with restaurant name/info, logo, a
-  featured-dishes section, a navbar, and a footer.
+  featured-dishes section, a navbar, and a footer. The featured-dishes section MUST show at
+  most 6 items even if more than 6 MenuItems are marked as featured.
 - **FR-002**: The system MUST display a Menu page listing every menu item with its name,
-  description, price, image, and category.
+  description, price, image, and category. Prices MUST be shown in a single currency (e.g.
+  USD) with a fixed 2 decimal places and currency symbol (e.g. "$12.99").
 - **FR-003**: The system MUST let visitors filter the Menu page by category, including an
   option to view all categories at once.
 - **FR-004**: The system MUST provide a detail page for each menu item showing its full name,
@@ -160,13 +172,15 @@ confirm validation errors are shown and nothing is saved.
 - **FR-005**: The system MUST display a Contact page with restaurant contact information and
   a contact form.
 - **FR-006**: The system MUST validate contact form submissions (required fields, well-formed
-  contact info) before saving them, and MUST show the visitor a confirmation on success and
-  clear errors on failure.
+  contact info, message body capped at 2000 characters) before saving them, and MUST show the
+  visitor a confirmation on success and clear errors on failure.
 - **FR-007**: The system MUST persist every valid contact form submission for staff to review.
 - **FR-008**: The system MUST let staff create, edit, and delete Categories through Django
   Admin.
 - **FR-009**: The system MUST let staff create, edit, and delete MenuItems (including
   assigning a category, price, description, and image) through Django Admin.
+- **FR-009a**: The system MUST restrict menu item image uploads to JPEG, PNG, or WebP files no
+  larger than 5MB, rejecting anything else with a clear validation error in Django Admin.
 - **FR-010**: The system MUST let staff view submitted contact messages through Django Admin.
 - **FR-011**: The system MUST let staff mark a MenuItem as "featured" so it can appear in the
   Home page's featured-dishes section.
@@ -183,11 +197,12 @@ confirm validation errors are shown and nothing is saved.
   Attributes: name, and enough identifying info to be selected as a Menu page filter. A
   category can have zero or many menu items.
 - **MenuItem**: A single dish or drink offered by the restaurant. Attributes: name,
-  description, price, image, category (belongs to one Category), and a flag for whether it is
-  featured on the Home page.
+  description, price (single currency, fixed 2 decimal places), image (JPEG/PNG/WebP, max
+  5MB), category (belongs to one Category), and a flag for whether it is featured on the Home
+  page.
 - **ContactMessage**: A message submitted through the Contact page. Attributes: sender name,
-  sender contact info (e.g. email), message body, and submission timestamp. Reviewed by staff
-  in Django Admin; not editable by the visitor after submission.
+  sender contact info (e.g. email), message body (max 2000 characters), and submission
+  timestamp. Reviewed by staff in Django Admin; not editable by the visitor after submission.
 
 ## Success Criteria *(mandatory)*
 
@@ -221,3 +236,5 @@ confirm validation errors are shown and nothing is saved.
   superuser/staff accounts) authenticate, using Django's built-in auth.
 - Single restaurant, single language, single currency — multi-location/multi-language support
   is out of scope.
+- MenuItem has no "currently unavailable"/"sold out" state distinct from deletion; staff
+  temporarily remove an item from the menu by deleting or editing it, not by toggling a flag.

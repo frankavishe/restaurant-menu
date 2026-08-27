@@ -23,25 +23,26 @@ Establish the non-negotiable project principles so every later phase stays in sc
 Turn `requirement.md` into a formal feature spec: user-facing behavior for Home, Menu (with category filter), Item detail, Contact page + form, Admin-managed Category/MenuItem/ContactMessage data, without prescribing implementation details yet.
 **Output:** `spec.md` (new feature branch/dir per spec-kit convention)
 
-## Phase 3 — Clarify (optional but recommended)
+## Phase 3 — Clarify (optional but recommended) ✅ done
 **Skill:** `/speckit-clarify`
-Resolve ambiguities spec-kit flags before planning, e.g.:
-- Menu item images: uploaded files vs. URL field?
-- Contact form: saved to DB only, or also emailed?
-- Featured dishes on Home: manually flagged field, or auto-picked?
-- Category filter: query param page reload, or client-side?
-**Output:** clarifications encoded back into `spec.md`
+Resolve ambiguities spec-kit flags before planning. Session 2026-08-27 resolved:
+- Menu item images: JPEG/PNG/WebP, max 5MB
+- Prices: single currency, fixed 2 decimals, symbol shown (e.g. "$12.99")
+- Contact message: max 2000 characters
+- No "currently unavailable" state — staff delete/edit instead
+- Featured dishes on Home: capped at 6 items
+**Output:** clarifications encoded back into `spec.md` (uncommitted — commit alongside Phase 4 output)
 
-## Phase 4 — Plan
+## Phase 4 — Plan ✅ done
 **Skill:** `/speckit-plan`
-Produce the technical implementation plan:
-- Django project + app layout (e.g. `menu` app for Category/MenuItem, `pages`/`core` app for Home/Contact)
-- Model fields for `Category`, `MenuItem`, `ContactMessage`
-- URL structure and views (function- or class-based)
-- Template inheritance (`base.html` with navbar/footer via Bootstrap)
-- Static files strategy (Bootstrap via CDN vs. vendored) and media handling for images
-- Admin registration (`admin.py` customizations for list display/filtering)
-**Output:** `plan.md` + supporting design docs
+Produced the technical implementation plan:
+- Django 5.1 / Python 3.12; `menu` app (Category/MenuItem, filtering, detail) + `pages` app (Home/Contact, ContactMessage)
+- Model fields for `Category`, `MenuItem`, `ContactMessage` (incl. image validators, price as Decimal, message length cap)
+- URL structure and views: `/`, `/menu/` (+`?category=slug`), `/menu/<pk>/`, `/contact/`
+- Template inheritance (`base.html` with Bootstrap 5 navbar/footer)
+- Static files: Bootstrap via CDN; placeholder image as static asset; media via `MEDIA_ROOT` in dev
+- Admin registration summary for all three models
+**Output:** `plan.md`, `research.md`, `data-model.md`, `contracts/web-routes.md`, `quickstart.md` (all uncommitted)
 
 ## Phase 5 — Tasks
 **Skill:** `/speckit-tasks`
@@ -73,4 +74,4 @@ Execute `tasks.md` end-to-end: generates the actual Django project, models, admi
 - Commit + push final implementation
 
 ---
-**Status:** Phase 2 complete (`specs/001-restaurant-menu-site/spec.md`). Next: Phase 3/4 (`/speckit-clarify` optional, then `/speckit-plan`).
+**Status:** Phase 4 complete (`specs/001-restaurant-menu-site/plan.md` + design docs, uncommitted). Next: Phase 5 (`/speckit-tasks`).
