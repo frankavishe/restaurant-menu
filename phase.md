@@ -44,18 +44,13 @@ Produced the technical implementation plan:
 - Admin registration summary for all three models
 **Output:** `plan.md`, `research.md`, `data-model.md`, `contracts/web-routes.md`, `quickstart.md` (all uncommitted)
 
-## Phase 5 — Tasks
+## Phase 5 — Tasks ✅ done
 **Skill:** `/speckit-tasks`
-Break the plan into an ordered, dependency-aware task list, roughly:
-1. Project scaffold (`django-admin startproject`, apps)
-2. Models + migrations
-3. Admin registration
-4. Views + URLs (Home, Menu list, Category filter, Item detail, Contact)
-5. Templates + Bootstrap layout (base, navbar, footer, pages)
-6. Contact form (Django form + validation + save)
-7. Static/media configuration
-8. Responsive polish + manual QA pass
-**Output:** `tasks.md`
+Broke the plan into an ordered, dependency-aware task list organized by user story
+(US1 Menu browse/filter → US2 Admin management → US3 Home → US4 Item detail → US5 Contact),
+plus Setup and Foundational phases and a final Polish phase — 37 tasks (T001–T037) total.
+**Output:** `specs/001-restaurant-menu-site/tasks.md` (uncommitted — commit alongside prior
+phase outputs)
 
 ## Phase 6 — Quality gates (optional)
 - `/speckit-checklist` — generate a requirements-completeness checklist
@@ -74,4 +69,4 @@ Execute `tasks.md` end-to-end: generates the actual Django project, models, admi
 - Commit + push final implementation
 
 ---
-**Status:** Phase 4 complete (`specs/001-restaurant-menu-site/plan.md` + design docs, uncommitted). Next: Phase 5 (`/speckit-tasks`).
+**Status:** Phase 5 complete (`specs/001-restaurant-menu-site/tasks.md`, uncommitted). Next: Phase 6 (`/speckit-checklist`, `/speckit-analyze` — optional) or straight to Phase 7 (`/speckit-implement`).
