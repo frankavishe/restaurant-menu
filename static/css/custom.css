@@ -1,0 +1,14 @@
+/* Minimal overrides on top of Bootstrap defaults */
+
+.navbar-brand {
+    font-weight: 600;
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+}
+
+.menu-item-card {
+    height: 100%;
+}
