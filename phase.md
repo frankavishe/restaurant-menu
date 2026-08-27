@@ -18,7 +18,7 @@ Establish the non-negotiable project principles so every later phase stays in sc
 - Clean, conventional Django project layout
 **Output:** `.specify/memory/constitution.md`
 
-## Phase 2 — Specify
+## Phase 2 — Specify ✅ done
 **Skill:** `/speckit-specify`
 Turn `requirement.md` into a formal feature spec: user-facing behavior for Home, Menu (with category filter), Item detail, Contact page + form, Admin-managed Category/MenuItem/ContactMessage data, without prescribing implementation details yet.
 **Output:** `spec.md` (new feature branch/dir per spec-kit convention)
@@ -73,4 +73,4 @@ Execute `tasks.md` end-to-end: generates the actual Django project, models, admi
 - Commit + push final implementation
 
 ---
-**Status:** Phase 1 complete. Next: Phase 2 (`/speckit-specify`).
+**Status:** Phase 2 complete (`specs/001-restaurant-menu-site/spec.md`). Next: Phase 3/4 (`/speckit-clarify` optional, then `/speckit-plan`).
