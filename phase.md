@@ -52,9 +52,12 @@ plus Setup and Foundational phases and a final Polish phase — 37 tasks (T001�
 **Output:** `specs/001-restaurant-menu-site/tasks.md` (uncommitted — commit alongside prior
 phase outputs)
 
-## Phase 6 — Quality gates (optional)
-- `/speckit-checklist` — generate a requirements-completeness checklist
-- `/speckit-analyze` — cross-check `constitution.md` / `spec.md` / `plan.md` / `tasks.md` for consistency gaps before writing code
+## Phase 6 — Quality gates (optional) ✅ done
+- `/speckit-checklist` — skipped (optional; not requested)
+- `/speckit-analyze` — cross-checked `constitution.md` / `spec.md` / `plan.md` / `tasks.md`; found 1 HIGH inconsistency (FR-014 vs. category-filter fallback behavior) and 2 MEDIUM underspecifications (contact-info format validation; Bootstrap-class coverage on content templates). All three fixed:
+  - `spec.md` FR-014 narrowed to menu items only + new Edge Case documenting unmatched-category fallback
+  - `tasks.md` T030 now calls for a `clean_contact_info` validator
+  - `tasks.md` T017/T022/T025/T033 now call out Bootstrap grid/card/form classes explicitly
 
 ## Phase 7 — Implement
 **Skill:** `/speckit-implement`
@@ -69,4 +72,4 @@ Execute `tasks.md` end-to-end: generates the actual Django project, models, admi
 - Commit + push final implementation
 
 ---
-**Status:** Phase 5 complete (`specs/001-restaurant-menu-site/tasks.md`, uncommitted). Next: Phase 6 (`/speckit-checklist`, `/speckit-analyze` — optional) or straight to Phase 7 (`/speckit-implement`).
+**Status:** Phase 6 complete (analysis findings fixed, uncommitted). Next: Phase 7 (`/speckit-implement`).
