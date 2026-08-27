@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}{{ item.name }}{% endblock %}
+
+{% block content %}
+<a href="{% url 'menu_list' %}" class="btn btn-link ps-0 mb-3">&laquo; Back to Menu</a>
+
+<div class="row g-4">
+    <div class="col-md-6">
+        {% if item.image %}
+        <img src="{{ item.image.url }}" class="img-fluid rounded shadow-sm" alt="{{ item.name }}">
+        {% else %}
+        <img src="{% static 'img/placeholder.png' %}" class="img-fluid rounded shadow-sm" alt="{{ item.name }}">
+        {% endif %}
+    </div>
+    <div class="col-md-6">
+        <p class="text-muted mb-1">{{ item.category.name }}</p>
+        <h1>{{ item.name }}</h1>
+        <p class="fs-4 fw-bold">${{ item.price|floatformat:2 }}</p>
+        <p>{{ item.description }}</p>
+    </div>
+</div>
+{% endblock %}

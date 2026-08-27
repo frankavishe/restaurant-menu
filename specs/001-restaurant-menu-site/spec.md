@@ -144,6 +144,10 @@ confirm validation errors are shown and nothing is saved.
   clear error; no partial data is saved.
 - What happens when two categories or two menu items share the same name? Allowed — items are
   distinguished internally by ID, not by uniqueness of name.
+- What happens when a visitor loads the Menu page with a `category` filter value that doesn't
+  match any existing category (e.g. a stale bookmarked link)? The page does not error or 404 —
+  it falls back to showing the full, unfiltered menu with "All" indicated as active (see
+  FR-014).
 
 ## Clarifications
 
@@ -189,7 +193,10 @@ confirm validation errors are shown and nothing is saved.
 - **FR-013**: The system MUST show a placeholder image for any menu item that has no image
   uploaded.
 - **FR-014**: The system MUST return a clear "not found" result when a visitor requests a
-  menu item or category that does not exist.
+  menu item that does not exist (e.g. a deleted or invalid item ID). A Menu page request with
+  an unrecognized `category` filter value MUST NOT error or 404 — it MUST fall back to showing
+  the full, unfiltered menu (consistent with the Edge Cases' error-avoidance stance), with the
+  filter UI indicating "All" is active.
 
 ### Key Entities
 

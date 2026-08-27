@@ -44,27 +44,37 @@ Produced the technical implementation plan:
 - Admin registration summary for all three models
 **Output:** `plan.md`, `research.md`, `data-model.md`, `contracts/web-routes.md`, `quickstart.md` (all uncommitted)
 
-## Phase 5 — Tasks
+## Phase 5 — Tasks ✅ done
 **Skill:** `/speckit-tasks`
-Break the plan into an ordered, dependency-aware task list, roughly:
-1. Project scaffold (`django-admin startproject`, apps)
-2. Models + migrations
-3. Admin registration
-4. Views + URLs (Home, Menu list, Category filter, Item detail, Contact)
-5. Templates + Bootstrap layout (base, navbar, footer, pages)
-6. Contact form (Django form + validation + save)
-7. Static/media configuration
-8. Responsive polish + manual QA pass
-**Output:** `tasks.md`
+Broke the plan into an ordered, dependency-aware task list organized by user story
+(US1 Menu browse/filter → US2 Admin management → US3 Home → US4 Item detail → US5 Contact),
+plus Setup and Foundational phases and a final Polish phase — 37 tasks (T001–T037) total.
+**Output:** `specs/001-restaurant-menu-site/tasks.md` (uncommitted — commit alongside prior
+phase outputs)
 
-## Phase 6 — Quality gates (optional)
-- `/speckit-checklist` — generate a requirements-completeness checklist
-- `/speckit-analyze` — cross-check `constitution.md` / `spec.md` / `plan.md` / `tasks.md` for consistency gaps before writing code
+## Phase 6 — Quality gates (optional) ✅ done
+- `/speckit-checklist` — skipped (optional; not requested)
+- `/speckit-analyze` — cross-checked `constitution.md` / `spec.md` / `plan.md` / `tasks.md`; found 1 HIGH inconsistency (FR-014 vs. category-filter fallback behavior) and 2 MEDIUM underspecifications (contact-info format validation; Bootstrap-class coverage on content templates). All three fixed:
+  - `spec.md` FR-014 narrowed to menu items only + new Edge Case documenting unmatched-category fallback
+  - `tasks.md` T030 now calls for a `clean_contact_info` validator
+  - `tasks.md` T017/T022/T025/T033 now call out Bootstrap grid/card/form classes explicitly
 
-## Phase 7 — Implement
+## Phase 7 — Implement ✅ done
 **Skill:** `/speckit-implement`
-Execute `tasks.md` end-to-end: generates the actual Django project, models, admin, views, templates, static/media wiring, migrations, and setup instructions per the Deliverables in `requirement.md`.
-**Gate:** only run after reviewing `spec.md` / `plan.md` / `tasks.md`.
+Executed `tasks.md` end-to-end (T001–T037, all complete): Django project scaffold
+(`restaurant_site`), `menu` app (`Category`/`MenuItem` models, validators, admin, views,
+templates) and `pages` app (`ContactMessage` model, form, admin, views, templates), shared
+`base.html`/Bootstrap layout, static/media wiring, migrations applied, `README.md` setup
+instructions.
+- Environment: Python 3.14.5 (only interpreter available) + Django 5.2.17 (satisfies
+  `Django~=5.1`) + Pillow 12.3.0, isolated in a project-local `.venv`
+- Verified via browser: Home (featured cap 6/7 confirmed), Menu (list + category filter +
+  empty-state), Item detail, Contact (validation errors, valid submit → PRG redirect →
+  confirmation, `ContactMessage` persisted, visible in Admin), Admin CRUD login
+- `/menu/999999/` → 404 confirmed; `manage.py check` and `makemigrations --check` clean
+- Fixed `Category` admin plural label ("Categorys" → "Categories") during verification
+**Output:** full Django project at repo root (all files from `plan.md`'s Project Structure);
+`tasks.md` checkboxes all `[X]`; uncommitted — commit alongside Phase 8 verification.
 
 ## Phase 8 — Converge & verify
 **Skill:** `/speckit-converge`
@@ -74,4 +84,4 @@ Execute `tasks.md` end-to-end: generates the actual Django project, models, admi
 - Commit + push final implementation
 
 ---
-**Status:** Phase 4 complete (`specs/001-restaurant-menu-site/plan.md` + design docs, uncommitted). Next: Phase 5 (`/speckit-tasks`).
+**Status:** Phase 7 complete (full implementation done and manually verified, uncommitted). Next: Phase 8 (`/speckit-converge`).

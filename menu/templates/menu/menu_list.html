@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Menu{% endblock %}
+
+{% block content %}
+<h1 class="mb-4">Our Menu</h1>
+
+<nav class="mb-4">
+    <ul class="nav nav-pills flex-wrap">
+        <li class="nav-item">
+            <a class="nav-link {% if not active_category %}active{% endif %}" href="{% url 'menu_list' %}">All</a>
+        </li>
+        {% for category in categories %}
+        <li class="nav-item">
+            <a class="nav-link {% if active_category and active_category.slug == category.slug %}active{% endif %}"
+               href="{% url 'menu_list' %}?category={{ category.slug }}">{{ category.name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+</nav>
+
+{% if menu_items %}
+<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+    {% for item in menu_items %}
+    <div class="col">
+        <div class="card menu-item-card shadow-sm">
+            {% if item.image %}
+            <img src="{{ item.image.url }}" class="card-img-top" alt="{{ item.name }}">
+            {% else %}
+            <img src="{% static 'img/placeholder.png' %}" class="card-img-top" alt="{{ item.name }}">
+            {% endif %}
+            <div class="card-body d-flex flex-column">
+                <h5 class="card-title">{{ item.name }}</h5>
+                <p class="card-text text-muted small">{{ item.category.name }}</p>
+                <p class="card-text">{{ item.description|truncatewords:20 }}</p>
+                <p class="card-text fw-bold">${{ item.price|floatformat:2 }}</p>
+                <a href="{% url 'menu_item_detail' item.pk %}" class="btn btn-outline-dark mt-auto">View Details</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p class="text-muted">No menu items to show yet. Please check back soon.</p>
+{% endif %}
+{% endblock %}
