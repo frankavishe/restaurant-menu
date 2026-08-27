@@ -68,7 +68,7 @@ Standard Django multi-app layout at the repository root (per `plan.md` Project S
 
 - [ ] T015 [US1] Implement `menu_list` view in `menu/views.py`: read optional `?category=<slug>` query param; base queryset `MenuItem.objects.select_related('category')`; if the slug matches an existing `Category`, filter to it, else use the full queryset (unmatched/absent slug → "no filter", per `contracts/web-routes.md`); fetch `Category.objects.all()` for the filter nav; pass `menu_items`, `categories`, `active_category` to context
 - [ ] T016 [US1] Register the list route in `menu/urls.py` (depends on T015): `path('', views.menu_list, name='menu_list')`
-- [ ] T017 [P] [US1] Create `menu/templates/menu/menu_list.html` (depends on T015) extending `base.html`: category filter nav (a link per `Category` plus an "All" link that clears `?category`, highlighting `active_category`), an item list showing name, description, price as `${{ item.price|floatformat:2 }}`, image or `{% static 'img/placeholder.png' %}` fallback, category name, and a link to `/menu/{{ item.pk }}/`; an empty-state message when `menu_items` is empty
+- [ ] T017 [P] [US1] Create `menu/templates/menu/menu_list.html` (depends on T015) extending `base.html`, using Bootstrap grid/card classes throughout for responsive layout (FR-012): category filter nav (a link per `Category` plus an "All" link that clears `?category`, highlighting `active_category`), an item list showing name, description, price as `${{ item.price|floatformat:2 }}`, image or `{% static 'img/placeholder.png' %}` fallback, category name, and a link to `/menu/{{ item.pk }}/`; an empty-state message when `menu_items` is empty
 
 **Checkpoint**: Menu browsing and category filtering fully functional and independently testable — MVP deliverable.
 
@@ -95,7 +95,7 @@ Standard Django multi-app layout at the repository root (per `plan.md` Project S
 
 - [ ] T020 [US3] Implement `home` view in `pages/views.py`: query `MenuItem.objects.filter(is_featured=True).select_related('category')[:6]` (FR-001 cap), pass as `featured_items` to context
 - [ ] T021 [US3] Register the home route in `pages/urls.py` (depends on T020): `path('', views.home, name='home')`
-- [ ] T022 [P] [US3] Create `pages/templates/pages/home.html` (depends on T020) extending `base.html`: restaurant name/logo/info block (static template content), a featured-dishes section iterating `featured_items` (name/price/image-or-placeholder, each linking to `/menu/{{ item.pk }}/`), and a fallback message when `featured_items` is empty
+- [ ] T022 [P] [US3] Create `pages/templates/pages/home.html` (depends on T020) extending `base.html`, using Bootstrap grid/card classes throughout for responsive layout (FR-012): restaurant name/logo/info block (static template content), a featured-dishes section iterating `featured_items` (name/price/image-or-placeholder, each linking to `/menu/{{ item.pk }}/`), and a fallback message when `featured_items` is empty
 
 **Checkpoint**: Home page functional; navbar/footer (from Foundational T013) already links Home/Menu/Contact.
 
@@ -109,7 +109,7 @@ Standard Django multi-app layout at the repository root (per `plan.md` Project S
 
 - [ ] T023 [US4] Implement `menu_item_detail` view in `menu/views.py`: `get_object_or_404(MenuItem.objects.select_related('category'), pk=pk)`, pass `item` to context (FR-014)
 - [ ] T024 [US4] Register the detail route in `menu/urls.py` (depends on T023): `path('<int:pk>/', views.menu_item_detail, name='menu_item_detail')`
-- [ ] T025 [P] [US4] Create `menu/templates/menu/menu_item_detail.html` (depends on T023) extending `base.html`: full name, description, price (`${{ item.price|floatformat:2 }}`), image or placeholder fallback, category name
+- [ ] T025 [P] [US4] Create `menu/templates/menu/menu_item_detail.html` (depends on T023) extending `base.html`, using Bootstrap grid/card classes for responsive layout (FR-012): full name, description, price (`${{ item.price|floatformat:2 }}`), image or placeholder fallback, category name
 
 **Checkpoint**: Item detail pages reachable from the Menu page (link already added in T017) and 404 correctly for missing items.
 
@@ -125,10 +125,10 @@ Standard Django multi-app layout at the repository root (per `plan.md` Project S
 - [ ] T027 [US5] Generate `pages` app migration (depends on T026): `python manage.py makemigrations pages`
 - [ ] T028 [US5] Apply migration (depends on T027): `python manage.py migrate`
 - [ ] T029 [P] [US5] Register `ContactMessageAdmin` in `pages/admin.py` (depends on T026): `list_display=('name', 'contact_info', 'submitted_at')`, `list_filter=('submitted_at',)`, `search_fields=('name', 'contact_info', 'message')`
-- [ ] T030 [P] [US5] Create `ContactForm` (`ModelForm`) in `pages/forms.py` (depends on T026), bound to `ContactMessage` fields `name`, `contact_info`, `message`; `message` widget `forms.Textarea` with `maxlength=2000`; apply Bootstrap `form-control` classes to all widgets
+- [ ] T030 [P] [US5] Create `ContactForm` (`ModelForm`) in `pages/forms.py` (depends on T026), bound to `ContactMessage` fields `name`, `contact_info`, `message`; `message` widget `forms.Textarea` with `maxlength=2000`; apply Bootstrap `form-control` classes to all widgets; add a `clean_contact_info` method enforcing FR-006's "well-formed contact info" rule via a light email-or-phone pattern check (reject anything matching neither), raising `forms.ValidationError` on failure
 - [ ] T031 [US5] Implement `contact` view in `pages/views.py` (depends on T030): `GET` renders a blank `ContactForm`; valid `POST` saves the `ContactMessage` and redirects to `contact` with `?sent=1` (Post/Redirect/Get); invalid `POST` re-renders `contact.html` with the bound form and field errors, no row saved (FR-006, FR-007)
 - [ ] T032 [US5] Register the contact route in `pages/urls.py` (depends on T031): `path('contact/', views.contact, name='contact')`
-- [ ] T033 [P] [US5] Create `pages/templates/pages/contact.html` (depends on T031) extending `base.html`: restaurant contact info block, rendered `ContactForm` with Bootstrap markup and field errors, a success confirmation shown when `request.GET.get('sent') == '1'`
+- [ ] T033 [P] [US5] Create `pages/templates/pages/contact.html` (depends on T031) extending `base.html`, using Bootstrap grid/form classes for responsive layout (FR-012): restaurant contact info block, rendered `ContactForm` with Bootstrap markup (form-control/form-group) and field errors, a success confirmation shown when `request.GET.get('sent') == '1'`
 
 **Checkpoint**: All five user stories independently functional.
 
